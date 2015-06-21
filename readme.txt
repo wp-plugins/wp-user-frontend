@@ -261,4 +261,5 @@ redirected to the edit page with that post id. Then you'll see the edit post for
 
 == Upgrade Notice ==
 
-Nothing to say
+= 2.3 =
+ * It's a **massive update and change** from the previous version 1.3.2. Please do test in your site and main compatibility.
