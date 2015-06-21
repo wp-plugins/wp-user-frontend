@@ -1,5 +1,5 @@
 === WP User Frontend ===
-Contributors: tareq1988
+Contributors: tareq1988, wedevs
 Donate link: http://tareq.wedevs.com/donate/
 Tags: frontend, post, edit, dashboard, restrict, content submission, guest post, guest, dashboard, registration, profile, anonymous post, gravity, gravity forms, formidable
 Requires at least: 3.3
