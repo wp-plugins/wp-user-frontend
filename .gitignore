@@ -1,4 +1,9 @@
+.DS_Store
+plugin-deploy.sh
+config.codekit
+export.sh
+.idea
+/.DS_Store
 nbproject
-deploy.sh
-log.txt
-.gitignore
+node_modules
+includes/pro
