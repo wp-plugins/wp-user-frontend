@@ -124,6 +124,10 @@ redirected to the edit page with that post id. Then you'll see the edit post for
 
 == Changelog ==
 
+= version 2.3.1 =
+
+ * [fix] Compatibility problem with PHP < 5.2. Accidental PHP array shorthand used.
+
 = version 2.3 =
 
  * Pro plugin released as free with less features

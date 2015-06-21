@@ -332,11 +332,11 @@ class WPUF_Admin_Subscription {
                 </tr>
                 <tr class="wpuf-metabox-post_expiration wpuf_expiration_field">
                     <?php
-                    $timeType_array = [
+                    $timeType_array = array(
                         'year' => 100,
                         'month' => 12,
                         'day' => 30
-                    ];
+                    );
                     ?>
                     <th><?php _e( 'Post Expiration Time', 'wpuf' ); ?></th>
                     <td>
@@ -530,11 +530,11 @@ class WPUF_Admin_Subscription {
                             </tr>
                             <tr>
                                 <?php
-                                $timeType_array = [
+                                $timeType_array = array(
                                     'year' => 100,
                                     'month' => 12,
                                     'day' => 30
-                                ];
+                                );
                                 ?>
                                 <th><?php _e( 'Post Expiration Time', 'wpuf' ); ?></th>
                                 <td>
