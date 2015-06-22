@@ -606,4 +606,46 @@ class WPUF_Admin_Template {
         <?php
     }
 
+    /**
+     * Render image upload
+     *
+     * @param $field_id
+     * @param $label
+     * @param self
+     * @param array $values
+     */
+    public static function image_upload( $field_id, $label, $values = array() ) {
+        $max_size_name   = sprintf( '%s[%d][max_size]', self::$input_name, $field_id );
+        $max_files_name  = sprintf( '%s[%d][count]', self::$input_name, $field_id );
+
+        $max_size_value  = $values ? $values['max_size'] : '1024';
+        $max_files_value = $values ? $values['count'] : '1';
+
+        $help            = esc_attr( __( 'Enter maximum upload size limit in KB', 'wpuf' ) );
+        $count           = esc_attr( __( 'Number of images can be uploaded', 'wpuf' ) );
+        ?>
+        <li class="custom-field image_upload">
+            <?php self::legend( $label, $values, $field_id ); ?>
+            <?php self::hidden_field( "[$field_id][input_type]", 'image_upload' ); ?>
+            <?php self::hidden_field( "[$field_id][template]", 'image_upload' ); ?>
+
+            <div class="wpuf-form-holder">
+                <?php self::common( $field_id, '', true, $values ); ?>
+
+                <div class="wpuf-form-rows">
+                    <label><?php _e( 'Max. file size', 'wpuf' ); ?></label>
+                    <input type="text" class="smallipopInput" name="<?php echo $max_size_name; ?>" value="<?php echo $max_size_value; ?>" title="<?php echo $help; ?>">
+                </div> <!-- .wpuf-form-rows -->
+
+                <div class="wpuf-form-rows">
+                    <label><?php _e( 'Max. files', 'wpuf' ); ?></label>
+                    <input type="text" class="smallipopInput" name="<?php echo $max_files_name; ?>" value="<?php echo $max_files_value; ?>" title="<?php echo $count; ?>">
+                </div> <!-- .wpuf-form-rows -->
+
+                <?php self::conditional_field( $field_id, $values ); ?>
+            </div> <!-- .wpuf-form-holder -->
+        </li>
+    <?php
+    }
+
 }

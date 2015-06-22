@@ -1547,6 +1547,10 @@ class WPUF_Admin_Form {
                 WPUF_Admin_Template_Post::dropdown_field( $field_id, 'Custom field: Select');
                 break;
 
+            case 'custom_image':
+                WPUF_Admin_Template::image_upload( $field_id, 'Custom field: Image' );
+                break;
+
             case 'custom_multiselect':
                 WPUF_Admin_Template_Post::multiple_select( $field_id, 'Custom field: Multiselect');
                 break;

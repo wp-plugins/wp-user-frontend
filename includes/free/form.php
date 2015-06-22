@@ -4,12 +4,12 @@ class WPUF_form_element extends WPUF_Pro_Prompt {
 
     public static function add_form_custom_buttons() {
         $title = esc_attr( __( 'Click to add to the editor', 'wpuf' ) );
-
-        self::get_pro_prompt();
         ?>
+        <button class="button" data-name="custom_image" data-type="image" title="<?php echo $title; ?>"><?php _e( 'Image Upload', 'wpuf' ); ?></button>
+
+        <?php self::get_pro_prompt(); ?>
         <button class="button" disabled data-type="repeat" title="<?php echo $title; ?>"><?php _e( 'Repeat Field', 'wpuf' ); ?></button>
         <button class="button" disabled data-type="date" title="<?php echo $title; ?>"><?php _e( 'Date', 'wpuf' ); ?></button>
-        <button class="button" disabled data-type="image" title="<?php echo $title; ?>"><?php _e( 'Image Upload', 'wpuf' ); ?></button>
         <button class="button" disabled data-type="file" title="<?php echo $title; ?>"><?php _e( 'File Upload', 'wpuf' ); ?></button>
         <button class="button" disabled data-type="map" title="<?php echo $title; ?>"><?php _e( 'Google Maps', 'wpuf' ); ?></button>
         <button class="button" disabled data-type="select" title="<?php echo $title; ?>"><?php _e( 'Country List', 'wpuf' ); ?></button>

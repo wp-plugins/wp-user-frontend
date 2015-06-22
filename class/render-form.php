@@ -496,27 +496,9 @@ class WPUF_Render_Form {
                     $this->conditional_logic( $form_field, $form_id );
                     break;
 
-                /*case 'recaptcha':
-                    $form_field['name'] = 'recaptcha';
-                    $this->recaptcha( $form_field, $post_id, $form_id );
-                    $this->conditional_logic( $form_field, $form_id );
-                    break;*/
-
-                /*case 'action_hook':
-                    $this->action_hook( $form_field, $form_id, $post_id, $form_settings );
-                    break;*/
-
-               /* case 'really_simple_captcha':
-
-                    $this->really_simple_captcha( $form_field, $post_id, $form_id );
-                    $this->conditional_logic( $form_field, $form_id );
-                    break;*/
-
-                /*case 'toc':
-                    $form_field['name'] = 'toc';
-                    $this->toc( $form_field, $post_id, $form_id );
-                    $this->conditional_logic( $form_field, $form_id );
-                    break;*/
+                case 'image_upload':
+                    $this->image_upload( $form_field, $post_id, $type, $form_id );
+                    break;
 
                 default:
                     do_action( 'wpuf_render_form_' . $form_field['input_type'], $form_field, $form_id, $post_id, $form_settings );
@@ -915,12 +897,11 @@ class WPUF_Render_Form {
             <span class="wpuf-help"><?php echo stripslashes( $attr['help'] ); ?></span>
         </div>
         <?php
-            //add_action('check_word_restriction',array($this,'check_word_restriction_func'),10,3);
-            //do_action( 'check_word_restriction', $attr['word_restriction'],$attr['rich'],$attr['name'] );
-        $this->check_word_restriction_func($attr['word_restriction'],$attr['rich'],$attr['name']);
 
+        if ( isset( $attr['word_restriction'] ) ) {
+            $this->check_word_restriction_func( $attr['word_restriction'], $attr['rich'], $attr['name'] );
+        }
     }
-
 
 
     /**
@@ -1370,9 +1351,82 @@ class WPUF_Render_Form {
         <?php
     }
 
+    /**
+     * Prints a image upload field
+     *
+     * @param array $attr
+     * @param int|null $post_id
+     */
+    function image_upload( $attr, $post_id, $type, $form_id ) {
 
+        $has_featured_image = false;
+        $has_images = false;
+        $has_avatar = false;
 
+        if ( $post_id ) {
+            if ( $this->is_meta( $attr ) ) {
+                $images = $this->get_meta( $post_id, $attr['name'], $type, false );
+                $has_images = true;
+            } else {
 
+                if ( $type == 'post' ) {
+                    // it's a featured image then
+                    $thumb_id = get_post_thumbnail_id( $post_id );
+
+                    if ( $thumb_id ) {
+                        $has_featured_image = true;
+                        $featured_image = WPUF_Upload::attach_html( $thumb_id );
+                    }
+                } else {
+                    // it must be a user avatar
+                    $has_avatar = true;
+                    $featured_image = get_avatar( $post_id );
+                }
+            }
+        }
+        ?>
+
+        <div class="wpuf-fields">
+            <div id="wpuf-<?php echo $attr['name']; ?>-upload-container">
+                <div class="wpuf-attachment-upload-filelist" data-type="file" data-required="<?php echo $attr['required']; ?>">
+                    <a id="wpuf-<?php echo $attr['name']; ?>-pickfiles" class="button file-selector <?php echo ' wpuf_' . $attr['name'] . '_' . $form_id; ?>" href="#"><?php _e( 'Select Image', 'wpuf' ); ?></a>
+
+                    <ul class="wpuf-attachment-list thumbnails">
+                        <?php
+                        if ( $has_featured_image ) {
+                            echo $featured_image;
+                        }
+
+                        if ( $has_avatar ) {
+                            $avatar = get_user_meta( $post_id, 'user_avatar', true );
+                            if ( $avatar ) {
+                                echo $featured_image;
+                                printf( '<br><a href="#" data-confirm="%s" class="wpuf-button button wpuf-delete-avatar">%s</a>', __( 'Are you sure?', 'wpuf' ), __( 'Delete', 'wpuf' ) );
+                            }
+                        }
+
+                        if ( $has_images ) {
+                            foreach ($images as $attach_id) {
+                                echo WPUF_Upload::attach_html( $attach_id, $attr['name'] );
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div><!-- .container -->
+
+            <span class="wpuf-help"><?php echo stripslashes( $attr['help'] ); ?></span>
+
+        </div> <!-- .wpuf-fields -->
+
+        <script type="text/javascript">
+            jQuery(function($) {
+                new WPUF_Uploader('wpuf-<?php echo $attr['name']; ?>-pickfiles', 'wpuf-<?php echo $attr['name']; ?>-upload-container', <?php echo $attr['count']; ?>, '<?php echo $attr['name']; ?>', 'jpg,jpeg,gif,png,bmp', <?php echo $attr['max_size'] ?>);
+            });
+        </script>
+    <?php
+
+    }
 
     /**
      * Prints a section break
@@ -1388,8 +1442,5 @@ class WPUF_Render_Form {
         </div>
         <?php
     }
-
-
-
 
 }
