@@ -217,8 +217,16 @@ class WPUF_Render_Form {
                 }
 
                 // process other fields
-            } else {
+            } elseif ( $value['input_type'] == 'address' ) {
 
+                if( isset( $_POST[ $value['name'] ] ) && is_array( $_POST[ $value['name'] ] ) ) {
+                    foreach ( $_POST[ $value['name'] ] as $address_field => $field_value ) {
+                        $meta_key_value[ $value['name'] ][ $address_field ] = $field_value;
+                    }
+                }
+
+            }
+            else {
                 // if it's an array, implode with this->separator
                 if ( is_array( $_POST[$value['name']] ) ) {
 
@@ -498,6 +506,7 @@ class WPUF_Render_Form {
 
                 case 'image_upload':
                     $this->image_upload( $form_field, $post_id, $type, $form_id );
+                    $this->conditional_logic( $form_field, $form_id );
                     break;
 
                 default:
@@ -1125,10 +1134,9 @@ class WPUF_Render_Form {
             </div>
 
             <div class="wpuf-fields">
-                <div id="pass-strength-result"><?php _e( 'Strength indicator' ); ?></div>
+                <div id="pass-strength-result" style="display: block"><?php _e( 'Strength indicator' ); ?></div>
                 <script src="<?php echo includes_url( 'js/zxcvbn.min.js' ); ?>"></script>
                 <script src="<?php echo admin_url( 'js/password-strength-meter.js' ); ?>"></script>
-                <script src="<?php echo admin_url( 'js/user-profile.js' ); ?>"></script>
                 <script type="text/javascript">
                     var pwsL10n = {
                         empty: "<?php _e( 'Strength indicator', 'wpuf' ); ?>",
